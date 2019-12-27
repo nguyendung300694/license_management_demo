@@ -31,13 +31,13 @@ namespace LicenseManagement.Services.License
             var strPath =
                 HttpContext.Current.Server.MapPath(string.Format("~/I3App_Files/Licenses/{0}", licenseVm.Type == 1 ? licenseVm.WorkOrderNbr : licenseVm.SalesOrderNbr));
 
-            //if (!Directory.Exists(strPath))
-            //    Directory.CreateDirectory(strPath);
+            if (!Directory.Exists(strPath))
+                Directory.CreateDirectory(strPath);
 
             string filename = string.Format("{0}/{1}.lcs", strPath, randomId);
 
-            //if (File.Exists(filename))
-            //    File.Delete(filename);
+            if (File.Exists(filename))
+                File.Delete(filename);
 
             try
             {
@@ -318,29 +318,29 @@ namespace LicenseManagement.Services.License
             var lstArrayValues = i3License.ReadTextToInt(licenseVM.SaveLicenseSetting.SettingDetails);
             IntPtr licenseBuf = i3License.GenerateBinaryStream(ref licenseBufSize, lstArrayValues);
 
-            //try
-            //{
-            if (licenseBuf != IntPtr.Zero && licenseBufSize > 0)
+            try
             {
-                ////if (!TestLicenseApi.file_write(fileName, licenseBuf, licenseBufSize, license))
-                //if (!TestLicenseApi.file_write(fileName, licenseBuf, licenseBufSize, license, extraMachineCode))
-                IntPtr completedLicenseFileBuffer = IntPtr.Zero;
-                int completedLicenseFileBufferSize = 0;
-                if (!TestLicenseApi.license_write(licenseBuf, licenseBufSize, license, extraMachineCode, ref completedLicenseFileBuffer, ref completedLicenseFileBufferSize))
+                if (licenseBuf != IntPtr.Zero && licenseBufSize > 0)
                 {
-                    throw new Exception("Can't generate license file!");
+                    ////if (!TestLicenseApi.file_write(fileName, licenseBuf, licenseBufSize, license))
+                    //if (!TestLicenseApi.file_write(fileName, licenseBuf, licenseBufSize, license, extraMachineCode))
+                    IntPtr completedLicenseFileBuffer = IntPtr.Zero;
+                    int completedLicenseFileBufferSize = 0;
+                    if (!TestLicenseApi.license_write(licenseBuf, licenseBufSize, license, extraMachineCode, ref completedLicenseFileBuffer, ref completedLicenseFileBufferSize))
+                    {
+                        throw new Exception("Can't generate license file!");
+                    }
+
+                    byte[] completedLicenseBytes = new byte[completedLicenseFileBufferSize];
+                    System.Runtime.InteropServices.Marshal.Copy(completedLicenseFileBuffer, completedLicenseBytes, 0, completedLicenseFileBufferSize);
+
+                    File.WriteAllBytes(fileName, completedLicenseBytes);
                 }
-
-                byte[] completedLicenseBytes = new byte[completedLicenseFileBufferSize];
-                System.Runtime.InteropServices.Marshal.Copy(completedLicenseFileBuffer, completedLicenseBytes, 0, completedLicenseFileBufferSize);
-
-                File.WriteAllBytes(fileName, completedLicenseBytes);
             }
-            //}
-            //catch (Exception ex)
-            //{                
-            //    throw ex;
-            //}
+            catch (Exception ex)
+            {
+                throw ex;
+            }
             //i3License.ConvertIntFieldsToText(lstArrayValues);
         }
 
