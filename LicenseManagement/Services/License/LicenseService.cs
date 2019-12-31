@@ -16,6 +16,7 @@ namespace LicenseManagement.Services.License
 {
     public class LicenseService : ILicenseService
     {
+        #region Generate License and QRCode
         public string GenerateLicenseAndQRCode(LicenseViewModel licenseVm)
         {
             //11/06/2019 - tqdung
@@ -124,7 +125,9 @@ namespace LicenseManagement.Services.License
                 throw ex;
             }
         }
+        #endregion
 
+        #region Generate all in One License and QRCode
         //14/10/2019 - tqdung
         //Generate All-In-One License
         public string GenerateAllInOneLicenseAndQRCode(LicenseViewModel licenseVm)
@@ -252,7 +255,27 @@ namespace LicenseManagement.Services.License
                 throw ex;
             }
         }
+        #endregion
 
+        #region Get List i3 ProductId
+        public IEnumerable<int> GetListI3ProductId()
+        {
+            List<int> result = new List<int>();
+            var lstProducts = (new I3License()).GetAllProducts2();
+            foreach (var product in lstProducts)
+            {
+                if (product != null)
+                {
+                    result.Add(product.Id);
+                }
+            }
+            return result;
+        }
+        #endregion
+
+        #region SUPPORT METHOD
+
+        #region Generate License File to project Method
         private void GenerateLicenseFile(LicenseViewModel licenseVM, string fileName)
         {
             var license = new i3license_info_t
@@ -343,6 +366,10 @@ namespace LicenseManagement.Services.License
             }
             //i3License.ConvertIntFieldsToText(lstArrayValues);
         }
+        #endregion
+
+        #endregion END SUPPORT METHOD
+
 
         public SaveLicenseSettingExt GetSavedLicenseSettingBySerialNoAndProductId(int companyID, string serialNo, int productId, bool isGenerating)
         {
@@ -444,5 +471,6 @@ namespace LicenseManagement.Services.License
 
             return null;
         }
+
     }
 }

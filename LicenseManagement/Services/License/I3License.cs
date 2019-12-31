@@ -53,15 +53,23 @@ namespace LicenseManagement.Services.License
             //var strPath = HttpContext.Current.Server.MapPath(("~/I3App_Dlls"));
             //string[] ruleFilePaths = Directory.GetFiles(strPath, "*.i3hr");
 
-            var srxproRuleFilePath = Path.Combine(basePath, "I3App_Dlls", "srxpro.i3hr");
-            var cmsserverRuleFilePath = Path.Combine(basePath, "I3App_Dlls", "cmsserver.i3hr");
+            #region WARNING!!! ONLY ADD NEW TO LAST PRODUCTS LIST BELOW.
+
+            var srxproRuleFilePath = Path.Combine(basePath, "I3App_Dlls", "srxpro.i3hr");//Index 0
+            var cmsserverRuleFilePath = Path.Combine(basePath, "I3App_Dlls", "cmsserver.i3hr");//Index 1
 
             //tqdung - Aug 09, 2017
             //var ivaRuleFilePath = Path.Combine(basePath, "I3App_Dlls", "iva.i3hr");
-            var ivaRuleFilePath = Path.Combine(basePath, "I3App_Dlls", "i3ai.i3hr");
+            var ivaRuleFilePath = Path.Combine(basePath, "I3App_Dlls", "i3ai.i3hr");//Index 2
 
             //tqdung - Jun 20, 2019 - Add I3 Video Editor Product
-            var veRuleFilePath = Path.Combine(basePath, "I3App_Dlls", "videoeditor.i3hr");
+            var veRuleFilePath = Path.Combine(basePath, "I3App_Dlls", "videoeditor.i3hr");//Index 3
+
+            #region PLEASE ADD NEW PRODUCT HERE
+            //Index 4
+            #endregion END PLEASE ADD NEW PRODUCT HERE
+
+            #endregion END WARNING!!! ONLY ADD NEW TO LAST PRODUCT LIST BELOW.
 
             var epos = new i3hasprule_epos_t();
             //foreach (string ruleFile in ruleFilePaths)

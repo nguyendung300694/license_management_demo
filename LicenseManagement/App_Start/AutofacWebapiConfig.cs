@@ -8,6 +8,7 @@ using System.Linq;
 using System.Reflection;
 using System.Web;
 using System.Web.Http;
+using LicenseManagement.Services.Email;
 
 namespace LicenseManagement.App_Start
 {
@@ -33,6 +34,7 @@ namespace LicenseManagement.App_Start
 
             builder.RegisterType<LicenseService>().As<ILicenseService>().InstancePerRequest();
             builder.RegisterType<Logger>().As<ILogger>().InstancePerRequest();
+            builder.RegisterType<EmailService>().As<IEmailService>().InstancePerRequest();
 
             //Set the dependency resolver to be Autofac.  
             Container = builder.Build();

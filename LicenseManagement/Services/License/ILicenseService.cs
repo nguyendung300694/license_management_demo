@@ -11,5 +11,6 @@ namespace LicenseManagement.Services.License
     {
         string GenerateLicenseAndQRCode(LicenseViewModel licenseVm);
         string GenerateAllInOneLicenseAndQRCode(LicenseViewModel licenseVm);
+        IEnumerable<int> GetListI3ProductId();
     }
 }
