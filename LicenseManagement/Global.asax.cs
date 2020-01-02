@@ -15,11 +15,12 @@ namespace LicenseManagement
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
-            AutofacWebapiConfig.Initialize(GlobalConfiguration.Configuration);
+            AutofacWebapiConfig.Initialize(GlobalConfiguration.Configuration);//Initialize IOC
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            LoggerConfig.Initialize();//Initialize Logger
         }
     }
 }

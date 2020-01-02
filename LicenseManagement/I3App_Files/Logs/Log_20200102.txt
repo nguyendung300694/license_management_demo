@@ -1,0 +1,2 @@
+2020-01-02 16:20:18.220 +07:00 [Information]  - Hello : test
+2020-01-02 16:23:56.078 +07:00 [Information]  - Hello : test

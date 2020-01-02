@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Web;
+using System.Web.Mvc;
 
 namespace LicenseManagement.Services.Email
 {
@@ -17,7 +18,7 @@ namespace LicenseManagement.Services.Email
 
     public class EmailService : IEmailService
     {
-        //private readonly ILogger _log = ServiceLocator.GetService<ILogger>();
+        private readonly ILogger _log = DependencyResolver.Current.GetService<ILogger>();
         private readonly ExchangeService _exchangeService;
         private readonly ExchangeService _outlookService_POSearching;
 
@@ -61,7 +62,7 @@ namespace LicenseManagement.Services.Email
             }
             catch (Exception ex)
             {
-                //_log.Error("SendEmail", ex.Message);
+                _log.Error("SendEmail", ex.Message);
                 throw ex;
             }
 

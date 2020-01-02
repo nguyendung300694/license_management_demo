@@ -11,11 +11,21 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Web;
+using LicenseManagement.Services.Logger;
+using System.Web.Mvc;
+using System.Web.Http;
 
 namespace LicenseManagement.Services.License
 {
     public class LicenseService : ILicenseService
     {
+        private readonly ILogger _log;
+
+        public LicenseService(ILogger log)
+        {
+            _log = log;
+        }
+
         #region Generate License and QRCode
         public LicenseAndQRCodeResponse GenerateLicenseAndQRCode(LicenseViewModel licenseVm)
         {
@@ -120,7 +130,7 @@ namespace LicenseManagement.Services.License
                 //    licenseVm.AllowMultiMAC
                 //    );
 
-                //_log.Info("Success -- GenerateLicenseAndQRCode", randomId);
+                _log.Info("Success -- GenerateLicenseAndQRCode", randomId);
 
                 response.ListLicenseVmAndLicensePathCombine.Add(new LicenseViewModelAndLicensePathCombine
                 {
@@ -133,7 +143,7 @@ namespace LicenseManagement.Services.License
             }
             catch (Exception ex)
             {
-                //_log.Error("GenerateLicenseAndQRCode", ex.Message);
+                _log.Error("GenerateLicenseAndQRCode", ex.Message);
                 throw ex;
             }
         }
@@ -303,7 +313,7 @@ namespace LicenseManagement.Services.License
                     }
                     #endregion
 
-                    //_log.Info("Success -- GenerateAllInOneLicenseAndQRCode", allInOneId);
+                    _log.Info("Success -- GenerateAllInOneLicenseAndQRCode", allInOneId);
 
                     response.RelativePath = string.Format("{0}/{1}/{2}", "/I3App_Files/Licenses", licenseVm.Type == 1 ? licenseVm.WorkOrderNbr : licenseVm.SalesOrderNbr, allInOneId);
 
@@ -314,7 +324,7 @@ namespace LicenseManagement.Services.License
             }
             catch (Exception ex)
             {
-                //_log.Error("GenerateAllInOneLicenseAndQRCode", ex.Message);
+                _log.Error("GenerateAllInOneLicenseAndQRCode", ex.Message);
                 throw ex;
             }
         }
@@ -424,6 +434,5 @@ namespace LicenseManagement.Services.License
         #endregion
 
         #endregion END SUPPORT METHOD
-
     }
 }
