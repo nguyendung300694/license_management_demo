@@ -1,5 +1,6 @@
 ﻿using LicenseManagement.Models.License;
 using LicenseManagement.Services.License;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -24,21 +25,24 @@ namespace LicenseManagement.Controllers.Api
         }
 
         [HttpPost]
-        public HttpResponseMessage PostQRCode(LicenseViewModel licenseVM)
+        public HttpResponseMessage PostQRCode(LicenseViewModel licenseVm)
         {
-            return Request.CreateResponse(HttpStatusCode.OK, _licenseService.GenerateLicenseAndQRCode(licenseVM));
+            return Request.CreateResponse(HttpStatusCode.OK, _licenseService.GenerateLicenseAndQRCode(licenseVm));
         }
 
         [HttpPost]
-        public HttpResponseMessage PostAllInOneQRCode(LicenseViewModel licenseVM)
+        public HttpResponseMessage PostAllInOneQRCode(JObject objData)
         {
-            return Request.CreateResponse(HttpStatusCode.OK, _licenseService.GenerateAllInOneLicenseAndQRCode(licenseVM));
+            dynamic jsonData = objData;
+            var licenseVm = ((JObject)jsonData.licenseVm).ToObject<LicenseViewModel>();
+            var dataContent = ((JObject)jsonData.dataContent).ToObject<AllInOneLicenseAndQRCodeRequestContent>();
+            return Request.CreateResponse(HttpStatusCode.OK, _licenseService.GenerateAllInOneLicenseAndQRCode(licenseVm, dataContent));
         }
 
         [HttpGet]
-        public HttpResponseMessage GetListI3ProductId()
+        public HttpResponseMessage GetListI3Product()
         {
-            return Request.CreateResponse(HttpStatusCode.OK, _licenseService.GetListI3ProductId());
+            return Request.CreateResponse(HttpStatusCode.OK, _licenseService.GetListI3Product());
         }
 
         public HttpResponseMessage GetLicenseFile(string fileUrl, string serialCode)

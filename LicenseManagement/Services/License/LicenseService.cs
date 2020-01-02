@@ -17,7 +17,7 @@ namespace LicenseManagement.Services.License
     public class LicenseService : ILicenseService
     {
         #region Generate License and QRCode
-        public string GenerateLicenseAndQRCode(LicenseViewModel licenseVm)
+        public LicenseAndQRCodeResponse GenerateLicenseAndQRCode(LicenseViewModel licenseVm)
         {
             //11/06/2019 - tqdung
             //Add product name to license file
@@ -39,6 +39,11 @@ namespace LicenseManagement.Services.License
 
             if (File.Exists(filename))
                 File.Delete(filename);
+
+            LicenseAndQRCodeResponse response = new LicenseAndQRCodeResponse()
+            {
+                ListLicenseVmAndLicensePathCombine = new List<LicenseViewModelAndLicensePathCombine>()
+            };
 
             try
             {
@@ -117,7 +122,14 @@ namespace LicenseManagement.Services.License
 
                 //_log.Info("Success -- GenerateLicenseAndQRCode", randomId);
 
-                return string.Format("{0}/{1}/{2}", "/I3App_Files/Licenses", licenseVm.Type == 1 ? licenseVm.WorkOrderNbr : licenseVm.SalesOrderNbr, randomId);
+                response.ListLicenseVmAndLicensePathCombine.Add(new LicenseViewModelAndLicensePathCombine
+                {
+                    LicenseVm = licenseVm,
+                    LicensePath = string.Format("{0}/{1}/{2}", "/I3App_Files/Licenses", licenseVm.Type == 1 ? licenseVm.WorkOrderNbr : licenseVm.SalesOrderNbr, randomId)
+                });
+                response.RelativePath = string.Format("{0}/{1}/{2}", "/I3App_Files/Licenses", licenseVm.Type == 1 ? licenseVm.WorkOrderNbr : licenseVm.SalesOrderNbr, randomId);
+
+                return response;
             }
             catch (Exception ex)
             {
@@ -130,42 +142,65 @@ namespace LicenseManagement.Services.License
         #region Generate all in One License and QRCode
         //14/10/2019 - tqdung
         //Generate All-In-One License
-        public string GenerateAllInOneLicenseAndQRCode(LicenseViewModel licenseVm)
+        public LicenseAndQRCodeResponse GenerateAllInOneLicenseAndQRCode(LicenseViewModel licenseVm, AllInOneLicenseAndQRCodeRequestContent dataContent)
         {
             try
             {
+                LicenseAndQRCodeResponse response = new LicenseAndQRCodeResponse()
+                {
+                    ListLicenseVmAndLicensePathCombine = new List<LicenseViewModelAndLicensePathCombine>()
+                };
+
+
                 var strPath = HttpContext.Current.Server.MapPath(string.Format("~/I3App_Files/Licenses/{0}", licenseVm.Type == 1 ? licenseVm.WorkOrderNbr : licenseVm.SalesOrderNbr));
                 if (!Directory.Exists(strPath))
                     Directory.CreateDirectory(strPath);
 
-                var lstProducts = (new I3License()).GetAllProducts2();
+                //var lstProducts = (new I3License()).GetAllProducts2();
                 var strAllLicenseData = "";
 
-                foreach (var product in lstProducts)
+                foreach (var item in dataContent.ListCombine)
                 {
-                    if (product != null)
+                    if (item.SaveLicenseSetting != null)
                     {
-                        var license_settings = GetSavedLicenseSettingBySerialNoAndProductId(licenseVm.CompanyID, licenseVm.SerialNbr, product.Id, true);
+                        var license_settings = item.SaveLicenseSetting;
                         if (license_settings != null)
                         {
-                            var randomId = string.Format("{0}-{1:D2}-{2:D2}-{3}", licenseVm.SerialNbr, DateTime.Now.Month, DateTime.Now.Day, product.Description);
+                            var randomId = string.Format("{0}-{1:D2}-{2:D2}-{3}", licenseVm.SerialNbr, DateTime.Now.Month, DateTime.Now.Day, item.I3Product.Description);
 
                             string filename = string.Format("{0}/{1}.lcs", strPath, randomId);
 
                             if (File.Exists(filename))
                                 File.Delete(filename);
 
-                            var product_license_vm = licenseVm;
-                            product_license_vm.SaveLicenseSetting = new SaveLicenseSetting
+                            var product_license_vm = new LicenseViewModel
                             {
-                                ExpiredDate = license_settings.ExpiredDate,
-                                ExpiredDay = license_settings.ExpiredDay,
-                                FormatId = license_settings.FormatId,
-                                MachineCode = license_settings.MachineCode,
-                                ProductId = license_settings.ProductId,
-                                TypeExpired = license_settings.TypeExpired,
-                                UniqueId = license_settings.UniqueId,
-                                SettingDetails = license_settings.SettingDetails,
+                                CompanyID = licenseVm.CompanyID,
+                                ScreenID = licenseVm.ScreenID,
+                                OrderType = licenseVm.OrderType,
+                                SalesOrderNbr = licenseVm.SalesOrderNbr,
+                                CustomerPONbr = licenseVm.CustomerPONbr,
+                                InvoiceType = licenseVm.InvoiceType,
+                                InvoiceNbr = licenseVm.InvoiceNbr,
+                                DocType = licenseVm.DocType,
+                                WorkOrderNbr = licenseVm.WorkOrderNbr,
+                                Type = licenseVm.Type,
+                                SerialNbr = licenseVm.SerialNbr,
+                                MachineCode = licenseVm.MachineCode,
+                                UniqueId = licenseVm.UniqueId,
+                                RoutingNbr = licenseVm.RoutingNbr,
+                                AllowMultiMAC = licenseVm.AllowMultiMAC,
+                                SaveLicenseSetting = new SaveLicenseSetting
+                                {
+                                    ExpiredDate = license_settings.ExpiredDate,
+                                    ExpiredDay = license_settings.ExpiredDay,
+                                    FormatId = license_settings.FormatId,
+                                    MachineCode = license_settings.MachineCode,
+                                    ProductId = license_settings.ProductId,
+                                    TypeExpired = license_settings.TypeExpired,
+                                    UniqueId = license_settings.UniqueId,
+                                    SettingDetails = license_settings.SettingDetails,
+                                }
                             };
 
                             GenerateLicenseFile(product_license_vm, filename);
@@ -174,6 +209,11 @@ namespace LicenseManagement.Services.License
                             var strData = I3Helper.ConvertByteArrayToHexaString(data);
                             strAllLicenseData = !string.IsNullOrEmpty(strAllLicenseData) ? strAllLicenseData + ";" + strData : strData;
 
+                            response.ListLicenseVmAndLicensePathCombine.Add(new LicenseViewModelAndLicensePathCombine
+                            {
+                                LicenseVm = product_license_vm,
+                                LicensePath = string.Format("{0}/{1}/{2}", "/I3App_Files/Licenses", licenseVm.Type == 1 ? licenseVm.WorkOrderNbr : licenseVm.SalesOrderNbr, randomId)
+                            });
                             // Save data to database for logging
                             //StoreProcedureHelper.ExcecuteStoreProcedureNotReturn(
                             //    StoreProcedureName.InsertDataToLicenseLog,
@@ -190,6 +230,27 @@ namespace LicenseManagement.Services.License
                             //    !string.IsNullOrEmpty(licenseVm.WorkOrderNbr) ? licenseVm.WorkOrderNbr : "",
                             //    !string.IsNullOrEmpty(licenseVm.CustomerPONbr) ? licenseVm.CustomerPONbr : "",
                             //    I3Helper.ConvertObjectToByteArray(product_license_vm.SaveLicenseSetting),
+                            //    string.Format("{0}/{1}/{2}.jpg", "/I3App_Files/Licenses", licenseVm.Type == 1 ? licenseVm.WorkOrderNbr : licenseVm.SalesOrderNbr, randomId),
+                            //    string.Format("{0}/{1}/{2}.lcs", "/I3App_Files/Licenses", licenseVm.Type == 1 ? licenseVm.WorkOrderNbr : licenseVm.SalesOrderNbr, randomId),
+                            //    licenseVm.AllowMultiMAC
+                            //    );
+
+                            // Save data to database for logging
+                            //StoreProcedureHelper.ExcecuteStoreProcedureNotReturn(
+                            //    StoreProcedureName.InsertDataToLicenseLog,
+                            //    licenseVm.CompanyID,
+                            //    licenseVm.ScreenID,
+                            //    PX.Data.PXAccess.GetUserID(),
+                            //    licenseVm.SaveLicenseSetting.ProductId,
+                            //    licenseVm.SerialNbr,
+                            //    licenseVm.RoutingNbr,
+                            //    licenseVm.MachineCode,
+                            //    licenseVm.UniqueId,
+                            //    licenseVm.SalesOrderNbr,
+                            //    !string.IsNullOrEmpty(licenseVm.InvoiceNbr) ? licenseVm.InvoiceNbr : "",
+                            //    !string.IsNullOrEmpty(licenseVm.WorkOrderNbr) ? licenseVm.WorkOrderNbr : "",
+                            //    !string.IsNullOrEmpty(licenseVm.CustomerPONbr) ? licenseVm.CustomerPONbr : "",
+                            //    I3Helper.ConvertObjectToByteArray(licenseVm.SaveLicenseSetting),
                             //    string.Format("{0}/{1}/{2}.jpg", "/I3App_Files/Licenses", licenseVm.Type == 1 ? licenseVm.WorkOrderNbr : licenseVm.SalesOrderNbr, randomId),
                             //    string.Format("{0}/{1}/{2}.lcs", "/I3App_Files/Licenses", licenseVm.Type == 1 ? licenseVm.WorkOrderNbr : licenseVm.SalesOrderNbr, randomId),
                             //    licenseVm.AllowMultiMAC
@@ -244,7 +305,9 @@ namespace LicenseManagement.Services.License
 
                     //_log.Info("Success -- GenerateAllInOneLicenseAndQRCode", allInOneId);
 
-                    return string.Format("{0}/{1}/{2}", "/I3App_Files/Licenses", licenseVm.Type == 1 ? licenseVm.WorkOrderNbr : licenseVm.SalesOrderNbr, allInOneId);
+                    response.RelativePath = string.Format("{0}/{1}/{2}", "/I3App_Files/Licenses", licenseVm.Type == 1 ? licenseVm.WorkOrderNbr : licenseVm.SalesOrderNbr, allInOneId);
+
+                    return response;
                 }
 
                 return null;
@@ -257,19 +320,11 @@ namespace LicenseManagement.Services.License
         }
         #endregion
 
-        #region Get List i3 ProductId
-        public IEnumerable<int> GetListI3ProductId()
+        #region Get List i3 Product
+        public IEnumerable<I3Product> GetListI3Product()
         {
-            List<int> result = new List<int>();
             var lstProducts = (new I3License()).GetAllProducts2();
-            foreach (var product in lstProducts)
-            {
-                if (product != null)
-                {
-                    result.Add(product.Id);
-                }
-            }
-            return result;
+            return lstProducts ?? new List<I3Product>();
         }
         #endregion
 
@@ -369,108 +424,6 @@ namespace LicenseManagement.Services.License
         #endregion
 
         #endregion END SUPPORT METHOD
-
-
-        public SaveLicenseSettingExt GetSavedLicenseSettingBySerialNoAndProductId(int companyID, string serialNo, int productId, bool isGenerating)
-        {
-            //int _companyID = companyID > 0 ? companyID : I3InstanceHelper.GetCurrentCompanyID();
-
-            //var findObj = StoreProcedureHelper.CallStoreProcedureDynamicWithNameAndParamsReturnTable(
-            //    StoreProcedureName.GetSavedLicenseSettingBySerialNbrAndProductId,
-            //    _companyID,
-            //    serialNo,
-            //    productId,
-            //    isGenerating);
-
-            var findObj = new DataTable();
-
-            if (findObj.Rows.Count > 0)
-            {
-                //_log.Info("GetSavedLicenseSettingBySerialNbrAndProductId", "Success", _companyID, serialNo, productId);
-
-                var result = new SaveLicenseSettingExt();
-
-                var setting = I3Helper.ConvertByteArrayToObject<SaveLicenseSetting>(
-                    findObj.Rows[0]["SettingDetail"] as byte[]);
-
-                if (setting != null)
-                {
-                    result.UniqueId = findObj.Rows[0]["UniqueId"].ToString();
-                    result.ExpiredDate = setting.ExpiredDate;
-                    result.ExpiredDay = setting.ExpiredDay;
-                    result.FormatId = setting.FormatId;
-                    result.ProductId = setting.ProductId;
-                    result.TypeExpired = setting.TypeExpired;
-
-                    result.MachineCode = findObj.Rows[0]["MachineCode"].ToString();
-                    result.Extension = findObj.Rows[0]["Extension"].ToString();
-                    result.Model = findObj.Rows[0]["Model"].ToString();
-                    result.AllowMultiMAC = Convert.ToBoolean(findObj.Rows[0]["AllowMultiMAC"].ToString());
-
-                    //Check if settings are old config version then parse them to new config version
-                    if (setting.SettingDetails != null && setting.SettingDetails.Count > 0)
-                    {
-                        var i3License = new I3License(setting.ProductId, setting.FormatId);
-                        var newFieldLst = i3License.GetFieldFromProductFormat(setting.ProductId, setting.FormatId, 1);
-
-                        var i3LicenseOld = new I3LicenseOldVer(setting.ProductId, setting.FormatId);
-                        var oldFieldLst = i3LicenseOld.GetFieldFromProductFormat(setting.ProductId, setting.FormatId, 1);
-
-                        //Replace "Any" value with new defined char
-                        for (int i = 0; i < setting.SettingDetails.Count; i++)
-                        {
-                            if (setting.SettingDetails[i] != null && setting.SettingDetails[i].Equals("Any"))
-                                setting.SettingDetails[i] = i3License.DefaultStrAny;
-                        }
-
-                        bool allAreAny = setting.SettingDetails.ToArray().All(s => string.Equals(i3License.DefaultStrAny, s != null ? s.ToString() : string.Empty, StringComparison.InvariantCultureIgnoreCase));
-
-                        if (!allAreAny && setting.SettingDetails.Count <= oldFieldLst.Count && oldFieldLst.Count < newFieldLst.Count)
-                        {
-                            var lstArrayValues = i3LicenseOld.ReadTextToInt(setting.SettingDetails);
-
-                            result.SettingDetails = i3License.ConvertIntFieldsToText(lstArrayValues);
-                        }
-                        else
-                        {
-                            result.SettingDetails = setting.SettingDetails;
-                        }
-
-                        if (result.SettingDetails.Count < newFieldLst.Count)
-                        {
-                            for (int i = result.SettingDetails.Count; i < newFieldLst.Count; i++)
-                            {
-                                var selVal = i3License.DefaultFieldValue(newFieldLst[i].DropDownValue);
-
-                                result.SettingDetails.Add(selVal > 0 && newFieldLst[i].ChildSelectValued.Count > selVal
-                                    ? newFieldLst[i].ChildSelectValued[selVal].DropDownValue
-                                    : i3License.DefaultStrAny);
-                            }
-                        }
-                        //10/06/2019 - tqdung - Revert code to previous version
-                        ////14/02/2019 - tqdung
-                        ////New I3AI 7.0 Product Has Only 1 Ai Field
-                        ////If It Is Old License Settings Then We Have To Merge AI & VA Values: Ai = Old AI + Old VA
-                        //else if (result.ProductId == 2 && //AI: ProductId == 2 (2 is index)
-                        //    result.SettingDetails.Count == 2 &&
-                        //    newFieldLst.Count == 1)
-                        //{
-                        //    int oldAIval = 0, oldVAval = 0;
-                        //    int.TryParse(result.SettingDetails[0].ToString(), out oldAIval);
-                        //    int.TryParse(result.SettingDetails[1].ToString(), out oldVAval);
-                        //    int newAival = oldAIval + oldVAval;
-
-                        //    result.SettingDetails.RemoveRange(0, 2);
-                        //    result.SettingDetails.Add(newAival.ToString() ?? i3License.DefaultStrAny);
-                        //}
-                    }
-
-                    return result;
-                }
-            }
-
-            return null;
-        }
 
     }
 }

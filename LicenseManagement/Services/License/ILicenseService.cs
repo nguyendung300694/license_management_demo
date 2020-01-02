@@ -9,8 +9,8 @@ namespace LicenseManagement.Services.License
 {
     public interface ILicenseService
     {
-        string GenerateLicenseAndQRCode(LicenseViewModel licenseVm);
-        string GenerateAllInOneLicenseAndQRCode(LicenseViewModel licenseVm);
-        IEnumerable<int> GetListI3ProductId();
+        LicenseAndQRCodeResponse GenerateLicenseAndQRCode(LicenseViewModel licenseVm);
+        LicenseAndQRCodeResponse GenerateAllInOneLicenseAndQRCode(LicenseViewModel licenseVm, AllInOneLicenseAndQRCodeRequestContent dataContent);
+        IEnumerable<I3Product> GetListI3Product();
     }
 }

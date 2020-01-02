@@ -313,7 +313,9 @@
     <Compile Include="Models\Email\EmailViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Item\CameraLabelInfo.cs" />
+    <Compile Include="Models\License\AllInOneLicenseAndQRCodeRequestContent.cs" />
     <Compile Include="Models\License\FilterRoutingParse.cs" />
+    <Compile Include="Models\License\LicenseAndQRCodeResponse.cs" />
     <Compile Include="Models\License\LicenseViewModel.cs" />
     <Compile Include="Models\License\RoutingParseDetail.cs" />
     <Compile Include="Models\License\RoutingParseInfo.cs" />
@@ -477,6 +479,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
