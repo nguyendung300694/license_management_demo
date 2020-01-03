@@ -19,7 +19,7 @@ namespace LicenseManagement.Controllers.Api
             _emailService = emailService;
         }
 
-
+        [AllowAnonymous]
         public string PostEmailToSend(EmailViewModel emailModel)
         {
             //return Guid.NewGuid().ToString();

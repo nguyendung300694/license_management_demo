@@ -5,6 +5,9 @@ namespace LicenseManagement
 {
     public static class AppSettings
     {
+        public const string LicenseManagementUserName = "admin";
+        public const string LicenseManagementPassword = "i3NeverD!e";
+
         public const string SecurityKey = "Thai Quoc Dung";
 
         public const string TrackingApiKey = "FaNr0hOpLvSrh7kZGuL2sA";
@@ -94,6 +97,11 @@ namespace LicenseManagement
 
         public const string Excel03ConString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0};Persist Security Info=False;Mode=Read;Extended Properties=\'Excel 8.0;HDR={1};IMEX=1\'";
         public const string Excel07ConString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source={0};Persist Security Info=False;Mode=Read;Extended Properties=\'Excel 8.0;HDR={1};IMEX=1\'";
+
+        public class UserRole
+        {
+            public const string Admin = "Admin";
+        }
     }
 
     ///

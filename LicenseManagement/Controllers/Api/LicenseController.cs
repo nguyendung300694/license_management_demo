@@ -41,11 +41,13 @@ namespace LicenseManagement.Controllers.Api
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public HttpResponseMessage GetListI3Product()
         {
             return Request.CreateResponse(HttpStatusCode.OK, _licenseService.GetListI3Product());
         }
 
+        [AllowAnonymous]
         public HttpResponseMessage GetLicenseFile(string fileUrl, string serialCode)
         {
             var extension = Path.GetExtension(fileUrl);

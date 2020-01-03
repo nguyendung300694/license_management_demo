@@ -309,6 +309,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\Api\AccountController.cs" />
+    <Compile Include="Controllers\Api\CheckingApiToken\CheckingApiTokenController.cs" />
     <Compile Include="Controllers\Api\EmailController.cs" />
     <Compile Include="Controllers\Api\LicenseController.cs" />
     <Compile Include="Controllers\Mvc\HomeController.cs" />
@@ -323,6 +324,7 @@
     <Compile Include="Helpers\I3Helper.cs" />
     <Compile Include="Models\View\Account\AccountBindingModels.cs" />
     <Compile Include="Models\View\Account\AccountViewModels.cs" />
+    <Compile Include="Models\View\Account\UserCustom.cs" />
     <Compile Include="Models\View\Email\EmailViewModels.cs" />
     <Compile Include="Models\Entity\IdentityModels.cs" />
     <Compile Include="Models\View\Item\CameraLabelInfo.cs" />
@@ -354,6 +356,8 @@
     <Compile Include="Services\License\RoutingParseHelper.cs" />
     <Compile Include="Services\Logger\ILogger.cs" />
     <Compile Include="Services\Logger\Logger.cs" />
+    <Compile Include="Services\Account\CustomUser\ICustomUserService.cs" />
+    <Compile Include="Services\Account\CustomUser\CustomUserService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
