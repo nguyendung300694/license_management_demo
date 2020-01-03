@@ -13,9 +13,10 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
-using LicenseManagement.Models;
+using LicenseManagement.Models.View.Account;
 using LicenseManagement.Providers;
 using LicenseManagement.Results;
+using LicenseManagement.Models.Entity;
 
 namespace LicenseManagement.Controllers.Api
 {

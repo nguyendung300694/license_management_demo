@@ -5,7 +5,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using LicenseManagement.Helpers;
-using LicenseManagement.Models.License;
+using LicenseManagement.Models.View.License;
 using LicenseGen;
 using RuleParse;
 using System.Runtime.InteropServices;

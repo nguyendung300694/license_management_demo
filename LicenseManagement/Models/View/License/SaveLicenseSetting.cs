@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using LicenseManagement.Helpers;
 
-namespace LicenseManagement.Models.License
+namespace LicenseManagement.Models.View.License
 {
     public class SaveLicenseSetting
     {

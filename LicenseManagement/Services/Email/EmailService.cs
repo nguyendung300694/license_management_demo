@@ -1,4 +1,4 @@
-﻿using LicenseManagement.Models.Email;
+﻿using LicenseManagement.Models.View.Email;
 using LicenseManagement.Services.Logger;
 using Microsoft.Exchange.WebServices.Data;
 using System;

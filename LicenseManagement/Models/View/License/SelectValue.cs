@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace LicenseManagement.Models.License
+namespace LicenseManagement.Models.View.License
 {
     public class SelectValue
     {

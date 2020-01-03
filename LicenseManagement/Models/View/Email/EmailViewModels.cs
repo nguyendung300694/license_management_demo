@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace LicenseManagement.Models.Email
+namespace LicenseManagement.Models.View.Email
 {
     public class EmailViewModel
     {

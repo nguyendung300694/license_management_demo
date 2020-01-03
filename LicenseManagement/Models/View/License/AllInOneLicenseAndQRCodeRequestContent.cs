@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace LicenseManagement.Models.License
+namespace LicenseManagement.Models.View.License
 {
     public class AllInOneLicenseAndQRCodeRequestContent
     {

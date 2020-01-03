@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
 
-namespace LicenseManagement.Models
+namespace LicenseManagement.Models.View.Account
 {
     // Models used as parameters to AccountController actions.
 

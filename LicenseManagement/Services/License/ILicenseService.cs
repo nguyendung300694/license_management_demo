@@ -1,4 +1,4 @@
-﻿using LicenseManagement.Models.License;
+﻿using LicenseManagement.Models.View.License;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,4 +1,4 @@
-﻿using LicenseManagement.Models.Email;
+﻿using LicenseManagement.Models.View.Email;
 using LicenseManagement.Services.Email;
 using System;
 using System.Collections.Generic;
@@ -9,6 +9,7 @@ using System.Web.Http;
 
 namespace LicenseManagement.Controllers.Api
 {
+    [Authorize]
     public class EmailController : ApiController
     {
         private readonly IEmailService _emailService;

@@ -3,7 +3,7 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Drawing;
 using System.IO;
-using LicenseManagement.Models.Item;
+using LicenseManagement.Models.View.Item;
 using Font = System.Drawing.Font;
 using Image = System.Drawing.Image;
 using iTextSharp.text.pdf;

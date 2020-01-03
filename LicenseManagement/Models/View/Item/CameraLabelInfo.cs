@@ -1,4 +1,4 @@
-namespace LicenseManagement.Models.Item
+namespace LicenseManagement.Models.View.Item
 {
 	public class CameraLabelInfo
 	{

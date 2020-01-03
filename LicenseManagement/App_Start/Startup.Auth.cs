@@ -9,7 +9,7 @@ using Microsoft.Owin.Security.Google;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
 using LicenseManagement.Providers;
-using LicenseManagement.Models;
+using LicenseManagement.Models.Entity;
 
 namespace LicenseManagement
 {

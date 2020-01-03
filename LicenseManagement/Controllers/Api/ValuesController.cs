@@ -7,7 +7,7 @@ using System.Web.Http;
 
 namespace LicenseManagement.Controllers.Api
 {
-    //[Authorize]
+    [Authorize]
     public class ValuesController : ApiController
     {
         // GET api/values

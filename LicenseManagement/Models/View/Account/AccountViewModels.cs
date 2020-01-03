@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace LicenseManagement.Models
+namespace LicenseManagement.Models.View.Account
 {
     // Models returned by AccountController actions.
 

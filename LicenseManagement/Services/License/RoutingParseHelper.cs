@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using LicenseManagement.Helpers;
-using LicenseManagement.Models.License;
+using LicenseManagement.Models.View.License;
 
 namespace LicenseManagement.Services.License
 {

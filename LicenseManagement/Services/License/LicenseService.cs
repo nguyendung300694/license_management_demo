@@ -1,6 +1,6 @@
 ﻿using LicenseGen;
 using LicenseManagement.Helpers;
-using LicenseManagement.Models.License;
+using LicenseManagement.Models.View.License;
 using MessagingToolkit.QRCode.Helper;
 using System;
 using System.Collections.Generic;
