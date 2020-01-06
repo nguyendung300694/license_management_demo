@@ -67,47 +67,49 @@ namespace LicenseManagement.Services.License
                 //                                                      string.Format("{0}/{1}.jpg", strPath, randomId),
                 //                                                      ImageFormat.Jpeg);           
 
-                EnumCollection.QRcode code;
-                unsafe
-                {
-                    fixed (byte* p = data)
-                    {
-                        var myIntPtr = (IntPtr)p;
-                        code = QRGeneratorAPI.QREncodeData(data.Length, myIntPtr, EnumCollection.QRecLevel.QR_ECLEVEL_L);
-                    }
-                }
+                SaveQRCodeImage(data, strPath, randomId);
 
-                const int zoom = 3;
-                //int xPadding = 10;
-                //int yPadding = 10;
-                if (code.width > 0)
-                {
-                    //using (var qr_image = new Bitmap(code.width * ZOOM, code.width * ZOOM))                    
-                    using (var qrImage = new Bitmap(code.width * zoom, code.width * zoom))
-                    {
+                //EnumCollection.QRcode code;
+                //unsafe
+                //{
+                //    fixed (byte* p = data)
+                //    {
+                //        var myIntPtr = (IntPtr)p;
+                //        code = QRGeneratorAPI.QREncodeData(data.Length, myIntPtr, EnumCollection.QRecLevel.QR_ECLEVEL_L);
+                //    }
+                //}
 
-                        for (int y = 0; y < code.width; y++)
-                            for (int x = 0; x < code.width; x++)
-                            {
-                                for (int i = 0; i < zoom; i++)
-                                    for (int j = 0; j < zoom; j++)
-                                    {
-                                        int xx = x * zoom + i;
-                                        int yy = y * zoom + j;
+                //const int zoom = 3;
+                ////int xPadding = 10;
+                ////int yPadding = 10;
+                //if (code.width > 0)
+                //{
+                //    //using (var qr_image = new Bitmap(code.width * ZOOM, code.width * ZOOM))                    
+                //    using (var qrImage = new Bitmap(code.width * zoom, code.width * zoom))
+                //    {
 
-                                        qrImage.SetPixel(xx, yy,
-                                                         code.data[y * code.width + x] ? System.Drawing.Color.Black : System.Drawing.Color.White);
-                                    }
-                            }
+                //        for (int y = 0; y < code.width; y++)
+                //            for (int x = 0; x < code.width; x++)
+                //            {
+                //                for (int i = 0; i < zoom; i++)
+                //                    for (int j = 0; j < zoom; j++)
+                //                    {
+                //                        int xx = x * zoom + i;
+                //                        int yy = y * zoom + j;
 
-                        //  e.Graphics.DrawImage(qr_image, new Point(X_PADDING, Y_PADDING));
+                //                        qrImage.SetPixel(xx, yy,
+                //                                         code.data[y * code.width + x] ? System.Drawing.Color.Black : System.Drawing.Color.White);
+                //                    }
+                //            }
 
-                        if (File.Exists(string.Format("{0}/{1}.jpg", strPath, randomId)))
-                            File.Delete(string.Format("{0}/{1}.jpg", strPath, randomId));
+                //        //  e.Graphics.DrawImage(qr_image, new Point(X_PADDING, Y_PADDING));
 
-                        qrImage.Save(string.Format("{0}/{1}.jpg", strPath, randomId), ImageFormat.Jpeg);
-                    }
-                }
+                //        if (File.Exists(string.Format("{0}/{1}.jpg", strPath, randomId)))
+                //            File.Delete(string.Format("{0}/{1}.jpg", strPath, randomId));
+
+                //        qrImage.Save(string.Format("{0}/{1}.jpg", strPath, randomId), ImageFormat.Jpeg);
+                //    }
+                //}
 
                 // Save data to database for logging
                 //StoreProcedureHelper.ExcecuteStoreProcedureNotReturn(
@@ -216,6 +218,9 @@ namespace LicenseManagement.Services.License
                             GenerateLicenseFile(product_license_vm, filename);
 
                             byte[] data = File.ReadAllBytes(filename);
+
+                            SaveQRCodeImage(data, strPath, randomId);
+
                             var strData = I3Helper.ConvertByteArrayToHexaString(data);
                             strAllLicenseData = !string.IsNullOrEmpty(strAllLicenseData) ? strAllLicenseData + ";" + strData : strData;
 
@@ -240,27 +245,6 @@ namespace LicenseManagement.Services.License
                             //    !string.IsNullOrEmpty(licenseVm.WorkOrderNbr) ? licenseVm.WorkOrderNbr : "",
                             //    !string.IsNullOrEmpty(licenseVm.CustomerPONbr) ? licenseVm.CustomerPONbr : "",
                             //    I3Helper.ConvertObjectToByteArray(product_license_vm.SaveLicenseSetting),
-                            //    string.Format("{0}/{1}/{2}.jpg", "/I3App_Files/Licenses", licenseVm.Type == 1 ? licenseVm.WorkOrderNbr : licenseVm.SalesOrderNbr, randomId),
-                            //    string.Format("{0}/{1}/{2}.lcs", "/I3App_Files/Licenses", licenseVm.Type == 1 ? licenseVm.WorkOrderNbr : licenseVm.SalesOrderNbr, randomId),
-                            //    licenseVm.AllowMultiMAC
-                            //    );
-
-                            // Save data to database for logging
-                            //StoreProcedureHelper.ExcecuteStoreProcedureNotReturn(
-                            //    StoreProcedureName.InsertDataToLicenseLog,
-                            //    licenseVm.CompanyID,
-                            //    licenseVm.ScreenID,
-                            //    PX.Data.PXAccess.GetUserID(),
-                            //    licenseVm.SaveLicenseSetting.ProductId,
-                            //    licenseVm.SerialNbr,
-                            //    licenseVm.RoutingNbr,
-                            //    licenseVm.MachineCode,
-                            //    licenseVm.UniqueId,
-                            //    licenseVm.SalesOrderNbr,
-                            //    !string.IsNullOrEmpty(licenseVm.InvoiceNbr) ? licenseVm.InvoiceNbr : "",
-                            //    !string.IsNullOrEmpty(licenseVm.WorkOrderNbr) ? licenseVm.WorkOrderNbr : "",
-                            //    !string.IsNullOrEmpty(licenseVm.CustomerPONbr) ? licenseVm.CustomerPONbr : "",
-                            //    I3Helper.ConvertObjectToByteArray(licenseVm.SaveLicenseSetting),
                             //    string.Format("{0}/{1}/{2}.jpg", "/I3App_Files/Licenses", licenseVm.Type == 1 ? licenseVm.WorkOrderNbr : licenseVm.SalesOrderNbr, randomId),
                             //    string.Format("{0}/{1}/{2}.lcs", "/I3App_Files/Licenses", licenseVm.Type == 1 ? licenseVm.WorkOrderNbr : licenseVm.SalesOrderNbr, randomId),
                             //    licenseVm.AllowMultiMAC
@@ -430,6 +414,53 @@ namespace LicenseManagement.Services.License
                 throw ex;
             }
             //i3License.ConvertIntFieldsToText(lstArrayValues);
+        }
+        #endregion
+
+        #region Save QRCode Image Method
+        private void SaveQRCodeImage(byte[] data, string strPath, string randomId)
+        {
+            EnumCollection.QRcode code;
+            unsafe
+            {
+                fixed (byte* p = data)
+                {
+                    var myIntPtr = (IntPtr)p;
+                    code = QRGeneratorAPI.QREncodeData(data.Length, myIntPtr, EnumCollection.QRecLevel.QR_ECLEVEL_L);
+                }
+            }
+
+            const int zoom = 3;
+            //int xPadding = 10;
+            //int yPadding = 10;
+            if (code.width > 0)
+            {
+                //using (var qr_image = new Bitmap(code.width * ZOOM, code.width * ZOOM))                    
+                using (var qrImage = new Bitmap(code.width * zoom, code.width * zoom))
+                {
+
+                    for (int y = 0; y < code.width; y++)
+                        for (int x = 0; x < code.width; x++)
+                        {
+                            for (int i = 0; i < zoom; i++)
+                                for (int j = 0; j < zoom; j++)
+                                {
+                                    int xx = x * zoom + i;
+                                    int yy = y * zoom + j;
+
+                                    qrImage.SetPixel(xx, yy,
+                                                     code.data[y * code.width + x] ? System.Drawing.Color.Black : System.Drawing.Color.White);
+                                }
+                        }
+
+                    //  e.Graphics.DrawImage(qr_image, new Point(X_PADDING, Y_PADDING));
+
+                    if (File.Exists(string.Format("{0}/{1}.jpg", strPath, randomId)))
+                        File.Delete(string.Format("{0}/{1}.jpg", strPath, randomId));
+
+                    qrImage.Save(string.Format("{0}/{1}.jpg", strPath, randomId), ImageFormat.Jpeg);
+                }
+            }
         }
         #endregion
 

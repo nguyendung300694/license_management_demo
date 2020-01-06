@@ -15,8 +15,8 @@ namespace LicenseManagement.Services.Account.CustomUser
 
             _listUser.Add(new UserCustom
             {
-                UserName = AppSettings.LicenseManagementUserName.Trim(),
-                Password = AppSettings.LicenseManagementPassword.Trim(),
+                UserName = AppSettings.LicenseManagement.AdminUserName.Trim(),
+                Password = AppSettings.LicenseManagement.AdminPassword.Trim(),
                 ListRoles = new List<string>
                 {
                     AppSettings.UserRole.Admin

@@ -5,7 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 
-namespace LicenseManagement.Controllers.Api
+namespace LicenseManagement.Controllers.Api.Miscellaneous
 {
     [Authorize]
     public class ValuesController : ApiController

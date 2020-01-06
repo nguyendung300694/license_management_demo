@@ -11,7 +11,7 @@ using System.Net.Http.Headers;
 using System.Web.Http;
 using System.Web.Http.Cors;
 
-namespace LicenseManagement.Controllers.Api
+namespace LicenseManagement.Controllers.Api.License
 {
     //[EnableCors(origins: "*", headers: "*",
     //methods: "*", SupportsCredentials = true)]

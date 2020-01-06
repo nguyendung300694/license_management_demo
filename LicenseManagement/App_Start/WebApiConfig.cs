@@ -20,11 +20,11 @@ namespace LicenseManagement
                 this.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html"));
 
             }
-            public override void SetDefaultContentHeaders(Type type, HttpContentHeaders headers, MediaTypeHeaderValue mediaType)
-            {
-                base.SetDefaultContentHeaders(type, headers, mediaType);
-                headers.ContentType = new MediaTypeHeaderValue("application/json");
-            }
+            //public override void SetDefaultContentHeaders(Type type, HttpContentHeaders headers, MediaTypeHeaderValue mediaType)
+            //{
+            //    base.SetDefaultContentHeaders(type, headers, mediaType);
+            //    headers.ContentType = new MediaTypeHeaderValue("application/json");
+            //}
         }
 
         public static void Register(HttpConfiguration config)
@@ -43,7 +43,7 @@ namespace LicenseManagement
 
             //Register routes
             config.Routes.MapHttpRoute(
-                name: null,
+                name: "CustomApi",
                 routeTemplate: "licenseapi/{controller}/{action}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );

@@ -5,9 +5,6 @@ namespace LicenseManagement
 {
     public static class AppSettings
     {
-        public const string LicenseManagementUserName = "admin";
-        public const string LicenseManagementPassword = "i3NeverD!e";
-
         public const string SecurityKey = "Thai Quoc Dung";
 
         public const string TrackingApiKey = "FaNr0hOpLvSrh7kZGuL2sA";
@@ -101,6 +98,14 @@ namespace LicenseManagement
         public class UserRole
         {
             public const string Admin = "Admin";
+            public const string User = "User";
+        }
+
+        public class LicenseManagement
+        {
+            public const string AdminUserName = "admin";
+            public const string AdminPassword = "i3NeverD!e";
+            public const string HostName = "http://localhost/LicenseManagement/";
         }
     }
 

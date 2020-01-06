@@ -308,12 +308,12 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
-    <Compile Include="Controllers\Api\AccountController.cs" />
+    <Compile Include="Controllers\Api\Account\AccountController.cs" />
     <Compile Include="Controllers\Api\CheckingApiToken\CheckingApiTokenController.cs" />
-    <Compile Include="Controllers\Api\EmailController.cs" />
-    <Compile Include="Controllers\Api\LicenseController.cs" />
-    <Compile Include="Controllers\Mvc\HomeController.cs" />
-    <Compile Include="Controllers\Api\ValuesController.cs" />
+    <Compile Include="Controllers\Api\Email\EmailController.cs" />
+    <Compile Include="Controllers\Api\License\LicenseController.cs" />
+    <Compile Include="Controllers\Mvc\Home\HomeController.cs" />
+    <Compile Include="Controllers\Api\Miscellaneous\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
