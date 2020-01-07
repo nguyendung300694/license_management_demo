@@ -16,11 +16,14 @@ namespace LicenseManagement.Authorization
 
             try
             {
-                var logger = new Logger();
-                var origin = actionContext.Request.Headers.Referrer?.GetLeftPart(UriPartial.Authority);
-                if (origin != null)
+                if (HttpContext.Current.User.Identity.IsAuthenticated == false)
                 {
-                    logger.Info("Connection Origin", origin);
+                    var logger = new Logger();
+                    var origin = actionContext.Request.Headers.Referrer?.GetLeftPart(UriPartial.Authority);
+                    if (origin != null)
+                    {
+                        logger.Info("Connection Origin", origin);
+                    }
                 }
             }
             catch { }
