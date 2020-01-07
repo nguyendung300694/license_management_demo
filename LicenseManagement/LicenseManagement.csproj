@@ -308,6 +308,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Authorization\CustomizeAuthorizeAttribute.cs" />
     <Compile Include="Controllers\Api\Account\AccountController.cs" />
     <Compile Include="Controllers\Api\CheckingApiToken\CheckingApiTokenController.cs" />
     <Compile Include="Controllers\Api\Email\EmailController.cs" />

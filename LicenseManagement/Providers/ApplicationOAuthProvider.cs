@@ -13,6 +13,7 @@ using LicenseManagement.Models;
 using LicenseManagement.Models.Entity;
 using LicenseManagement.Services.Account.CustomUser;
 using LicenseManagement.Services.Logger;
+using System.Web;
 
 namespace LicenseManagement.Providers
 {
@@ -90,17 +91,6 @@ namespace LicenseManagement.Providers
                 AuthenticationProperties properties = CreatePropertiesCustom(data);
                 AuthenticationTicket ticket = new AuthenticationTicket(oAuthIdentity, properties);
                 context.Validated(ticket);
-                try
-                {
-                    //string requestUri = context.Request.Host.Value;
-                    //var logger = new Logger();
-                    //if (logger != null)
-                    //{
-                    //    logger.Info("Success -- GenerateToken", $"Request from: {requestUri}");
-                    //}
-                }
-                catch (Exception ex)
-                { }
                 context.Request.Context.Authentication.SignIn(cookiesIdentity);
             });
         }
