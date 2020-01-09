@@ -14,19 +14,28 @@ namespace LicenseManagement.Authorization
         {
             base.OnAuthorization(actionContext);
 
+            LogConnectionOrigin(actionContext);
+        }
+
+        private void LogConnectionOrigin(HttpActionContext actionContext)
+        {
             try
             {
-                if (HttpContext.Current.User.Identity.IsAuthenticated == false)
+                //if (HttpContext.Current.User.Identity.IsAuthenticated == false)
+                //{
+                var logger = new Logger();
+                var origin = actionContext.Request.Headers.Referrer?.GetLeftPart(UriPartial.Authority);
+                if (origin != null)
                 {
-                    var logger = new Logger();
-                    var origin = actionContext.Request.Headers.Referrer?.GetLeftPart(UriPartial.Authority);
-                    if (origin != null)
-                    {
-                        logger.Info("Connection Origin", origin);
-                    }
+                    logger.Info("Connection Origin", origin);
                 }
+                //}
             }
-            catch { }
+            catch (Exception ex)
+            {
+                var logger = new Logger();
+                logger.Error("Connection Origin", ex.Message);
+            }
         }
     }
 }

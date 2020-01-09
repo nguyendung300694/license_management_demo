@@ -317,8 +317,17 @@ namespace LicenseManagement.Services.License
         #region Get List i3 Product
         public IEnumerable<I3Product> GetListI3Product()
         {
-            var lstProducts = (new I3License()).GetAllProducts2();
-            return lstProducts ?? new List<I3Product>();
+            try
+            {
+                var lstProducts = (new I3License()).GetAllProducts2();
+                _log.Info("Success -- GetListI3Product", string.Empty);
+                return lstProducts ?? new List<I3Product>();
+            }
+            catch (Exception ex)
+            {
+                _log.Error("GetListI3Product", ex.Message);
+                throw ex;
+            }
         }
         #endregion
 

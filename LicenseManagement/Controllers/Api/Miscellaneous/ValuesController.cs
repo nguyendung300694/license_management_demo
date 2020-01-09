@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LicenseManagement.Authorization;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -7,7 +8,7 @@ using System.Web.Http;
 
 namespace LicenseManagement.Controllers.Api.Miscellaneous
 {
-    [Authorize]
+    [CustomizeAuthorize]
     public class ValuesController : ApiController
     {
         // GET api/values

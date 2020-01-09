@@ -1,4 +1,5 @@
-﻿using LicenseManagement.Models.View.License;
+﻿using LicenseManagement.Authorization;
+using LicenseManagement.Models.View.License;
 using LicenseManagement.Services.License;
 using Newtonsoft.Json.Linq;
 using System;
@@ -15,7 +16,7 @@ namespace LicenseManagement.Controllers.Api.License
 {
     //[EnableCors(origins: "*", headers: "*",
     //methods: "*", SupportsCredentials = true)]
-    [Authorize]
+    [CustomizeAuthorize]
     public class LicenseController : ApiController
     {
         private readonly ILicenseService _licenseService;

@@ -17,10 +17,11 @@ using LicenseManagement.Models.View.Account;
 using LicenseManagement.Providers;
 using LicenseManagement.Results;
 using LicenseManagement.Models.Entity;
+using LicenseManagement.Authorization;
 
 namespace LicenseManagement.Controllers.Api.Account
 {
-    [Authorize]
+    [CustomizeAuthorize]
     [RoutePrefix("api/Account")]
     public class AccountController : ApiController
     {
