@@ -53,7 +53,28 @@ namespace LicenseManagement
                 defaults: new { id = RouteParameter.Optional }
             );
 
-            config.Formatters.Add(new CustomJSONFormatter());
+            config.Formatters.Add(new CustomJSONFormatter());//config api return JSON format
+        }
+
+        public static class CorsSettings
+        {
+            private static List<string> listOrigins = new List<string>
+            {
+                //"http://192.168.20.121",
+                "http://192.168.21.52/"
+            };
+
+            public static string GetListOrigins()
+            {
+                if (listOrigins.Count > 0)
+                {
+                    return string.Join(",", listOrigins);//for only defined origins
+                }
+                else
+                {
+                    return "*";//for all origins
+                }
+            }
         }
     }
 }

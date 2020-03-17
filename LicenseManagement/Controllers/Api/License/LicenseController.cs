@@ -16,7 +16,7 @@ namespace LicenseManagement.Controllers.Api.License
 {
     //[EnableCors(origins: "*", headers: "*",
     //methods: "*", SupportsCredentials = true)]
-    [CustomizeAuthorize]
+    [CustomizeAuthorize(Roles = AppSettings.UserRole.Admin)]
     public class LicenseController : ApiController
     {
         private readonly ILicenseService _licenseService;

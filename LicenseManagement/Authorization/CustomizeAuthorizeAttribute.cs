@@ -25,10 +25,7 @@ namespace LicenseManagement.Authorization
                 //{
                 var logger = new Logger();
                 var origin = actionContext.Request.Headers.Referrer?.GetLeftPart(UriPartial.Authority);
-                if (origin != null)
-                {
-                    logger.Info("Connection Origin", origin);
-                }
+                logger.Info("Connection Origin", origin ?? "N/A");
                 //}
             }
             catch (Exception ex)

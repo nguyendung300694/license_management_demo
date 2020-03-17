@@ -8,7 +8,7 @@ using System.Web.Http;
 
 namespace LicenseManagement.Controllers.Api.Miscellaneous
 {
-    [CustomizeAuthorize]
+    [CustomizeAuthorize(Roles = AppSettings.UserRole.Admin)]
     public class ValuesController : ApiController
     {
         // GET api/values

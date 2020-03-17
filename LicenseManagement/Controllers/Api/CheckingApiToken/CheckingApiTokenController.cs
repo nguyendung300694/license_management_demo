@@ -9,10 +9,9 @@ using System.Web.Http;
 
 namespace LicenseManagement.Controllers.Api.CheckingApiToken
 {
-    [CustomizeAuthorize]
+    [CustomizeAuthorize(Roles = AppSettings.UserRole.Admin)]
     public class CheckingApiTokenController : ApiController
     {
-
         [HttpGet]
         public HttpResponseMessage CheckApiTokenStatus()
         {

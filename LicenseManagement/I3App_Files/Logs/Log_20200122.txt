@@ -1,0 +1,5 @@
+2020-01-22 11:30:49.812 +07:00 [Information]  - Connection Origin : http://localhost
+2020-01-22 11:31:01.280 +07:00 [Information]  - Connection Origin : http://localhost
+2020-01-22 11:32:04.637 +07:00 [Information]  - Connection Origin : http://localhost
+2020-01-22 11:33:16.014 +07:00 [Information]  - Connection Origin : http://localhost
+2020-01-22 11:33:33.349 +07:00 [Information]  - Connection Origin : http://localhost

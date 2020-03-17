@@ -10,7 +10,7 @@ using System.Web.Http;
 
 namespace LicenseManagement.Controllers.Api.Email
 {
-    [CustomizeAuthorize]
+    [CustomizeAuthorize(Roles = AppSettings.UserRole.Admin)]
     public class EmailController : ApiController
     {
         private readonly IEmailService _emailService;
